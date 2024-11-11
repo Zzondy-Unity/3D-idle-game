@@ -8,7 +8,8 @@ using UnityEngine.AI;
 public class PlayerAutoMoveState : PlayerGroundState
 {
     private Transform Target;
-    private float DetectTerm = 0.5f;
+    private float DetectTerm = 0.1f;
+    private float LastDetect;
 
     public PlayerAutoMoveState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
@@ -30,7 +31,12 @@ public class PlayerAutoMoveState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-        Move();
+        LastDetect += Time.deltaTime;
+        if(LastDetect > DetectTerm)
+        {
+            LastDetect = 0f;
+            Move();
+        }
     }
 
     private void Move()
@@ -39,7 +45,6 @@ public class PlayerAutoMoveState : PlayerGroundState
         //없으면 전진
         float detectRange = stateMachine.Player.PlayerData.GroundData.DetectDistance;
         Vector3 playerPos = stateMachine.Player.transform.position;
-
         //주변에 적이 있다면 ChasingState로 변경
         if (Physics.CheckSphere(playerPos, detectRange, TargetLayerMask))
         {

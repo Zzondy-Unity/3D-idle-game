@@ -15,9 +15,11 @@ MonoBehaviour:
   <GroundData>k__BackingField:
     <BaseSpeed>k__BackingField: 5
     <BaseRotationDamping>k__BackingField: 1
-    <WalkSpeedModifier>k__BackingField: 0.225
+    <WalkSpeedModifier>k__BackingField: 1
     <RunSpeedModifier>k__BackingField: 1
     <JumpForce>k__BackingField: 5
+    <DetectDistance>k__BackingField: 10
+    <DetectTerm>k__BackingField: 0.5
   <AttackData>k__BackingField:
     <AttackName>k__BackingField: BaseAttack
     <Damage>k__BackingField: 10
