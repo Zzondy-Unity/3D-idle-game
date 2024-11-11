@@ -5,7 +5,9 @@ using UnityEngine.AI;
 
 public interface IWeapon
 {
+    public void Attack();
     public float GetWeaponRange();
+    public WeaponSO WeaponData { get; }
 }
 
 public class Player : MonoBehaviour
@@ -13,14 +15,14 @@ public class Player : MonoBehaviour
     [field: Header("Data")]
     [field: SerializeField] public PlayerSO PlayerData {  get; private set; }
     [field: SerializeField] public AnimationData AnimationData {  get; private set; }
+    public HealthSystem HealthSystem { get; private set; }
 
     [field: Header("Control")]
     [HideInInspector] public PlayerController Input { get; private set; }
     [HideInInspector] public CharacterController controller { get; private set; }
 
     [field: Header("Animation")]
-    [HideInInspector] public Animator animator;
-    [HideInInspector] public bool _hasAnimator;
+    [HideInInspector] public Animator animator { get; private set; }
 
     [field: Header("NavMesh")]
     [HideInInspector] public NavMeshAgent Agent;
@@ -42,13 +44,15 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        AnimationData.InitNameToHash();
-
-        _hasAnimator = TryGetComponent(out animator);
         _hasNMAgent = TryGetComponent(out Agent);
+        animator = GetComponentInChildren<Animator>();
 
         Input = GetComponent<PlayerController>();
         controller = GetComponent<CharacterController>();
+        HealthSystem = GetComponent<HealthSystem>();
+        HealthSystem.data = PlayerData;
+
+        AnimationData.InitNameToHash();
 
         StateMachine = new PlayerStateMachine(this);
     }

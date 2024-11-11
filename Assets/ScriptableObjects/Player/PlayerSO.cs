@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu (fileName = "PlayerSO", menuName = "Character/Player")]
-public class PlayerSO : ScriptableObject
+public class PlayerSO : EntitySO
 {
     [field: SerializeField] public PlayerGroundData GroundData { get; private set; }
     [field: SerializeField] public PlayerAttackData AttackData { get; private set; }
@@ -33,5 +33,5 @@ public class PlayerGroundData
 public class PlayerAttackData
 {
     [field: SerializeField] public string AttackName { get; private set; }
-    [field: SerializeField] public int Damage { get; private set; }
+    [field: SerializeField] public float Damage { get; private set; }
 }

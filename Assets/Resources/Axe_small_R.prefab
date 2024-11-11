@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5811605277919162793}
   - component: {fileID: 4285076209374466059}
   - component: {fileID: 6498329249697171038}
+  - component: {fileID: 1919817234775121700}
   m_Layer: 3
   m_Name: Axe_small_R
   m_TagString: WeaponTest
@@ -96,4 +97,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ba033ba0331f848bcb80b1b79a39a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponData: {fileID: 11400000, guid: cff529096403fd149a62016caa4a664a, type: 2}
+  myCollider: {fileID: 1919817234775121700}
+  <WeaponData>k__BackingField: {fileID: 11400000, guid: cff529096403fd149a62016caa4a664a,
+    type: 2}
+--- !u!65 &1919817234775121700
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4164713761302579328}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7143202, y: 0.67066145, z: 0.18496244}
+  m_Center: {x: -0.23169672, y: 0.63604516, z: -0.00000063958197}

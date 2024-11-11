@@ -13,6 +13,7 @@ public class AnimationData
     [SerializeField] private string attackParameterName = "@Attack";
     [SerializeField] private string groundParameterName = "@Ground";
     [SerializeField] private string idleParameterName = "Idle";
+    [SerializeField] private string comboAttackParameterName = "ComboAttack";
 
     public int SpeedParameterHash { get; private set; }
     public int MoveParameterHash { get; private set; }
@@ -21,6 +22,7 @@ public class AnimationData
     public int AttackParameterHash { get; private set; }
     public int GroundParameterHash { get; private set; }
     public int IdleParameterHash { get; private set; }
+    public int ComboAttackParameterHash { get; private set; }
 
     public void InitNameToHash()
     {
@@ -31,5 +33,6 @@ public class AnimationData
         AttackParameterHash = Animator.StringToHash(attackParameterName);
         GroundParameterHash = Animator.StringToHash(groundParameterName);
         IdleParameterHash = Animator.StringToHash(idleParameterName);
+        ComboAttackParameterHash = Animator.StringToHash(comboAttackParameterName);
     }
 }

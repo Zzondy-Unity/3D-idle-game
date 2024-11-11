@@ -33,7 +33,9 @@ public class PlayerBaseState : IState
 
     public virtual void Update()
     {
-        stateMachine.Player.Agent.speed = stateMachine.Player.PlayerData.GroundData.Speed;
+        float speed = stateMachine.Player.PlayerData.GroundData.Speed;
+        stateMachine.Player.Agent.speed = speed;
+        stateMachine.Player.animator.SetFloat(stateMachine.Player.AnimationData.SpeedParameterHash, speed);
     }
 
     protected virtual void AddInputActionCallbacks()
@@ -65,9 +67,23 @@ public class PlayerBaseState : IState
         stateMachine.Player.animator.SetTrigger(animationHash);
     }
 
-    protected RaycastHit[] IsInDetectDistance()
+    protected bool IsInDetectDistance()
+    {
+        RaycastHit[] hits = InDistance(stateMachine.Player.PlayerData.GroundData.DetectDistance);
+        return hits.Length > 0;
+    }
+
+    protected bool IsInAttackDistance()
+    {
+        RaycastHit[] hits = InDistance(stateMachine.Player.Weapon.GetWeaponRange());
+        return hits.Length > 0;
+    }
+
+    protected RaycastHit[] InDistance(float range)
     {
         RaycastHit[] hits;
+        hits = Physics.SphereCastAll(stateMachine.Player.transform.position, range, Vector3.up, 0f, TargetLayerMask);
+
         return hits;
     }
 }
