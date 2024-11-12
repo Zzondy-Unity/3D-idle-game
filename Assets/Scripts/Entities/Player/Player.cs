@@ -9,6 +9,7 @@ public interface IWeapon
     public void Attack();
     public float GetWeaponRange();
     public void ToggleWeaponCollider(bool state);
+    bool ColliderEnalbed { get; }
     public WeaponSO WeaponData { get; }
 }
 
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerSO PlayerData {  get; private set; }
     [field: SerializeField] public AnimationData AnimationData {  get; private set; }
     public HealthSystem HealthSystem { get; private set; }
+    public PlayerCondition condition { get; private set; }
 
     [field: Header("Control")]
     [HideInInspector] public PlayerController Input { get; private set; }
@@ -36,6 +38,7 @@ public class Player : MonoBehaviour
 
     public PlayerStateMachine StateMachine;
 
+    public GameObject WeaponObject;
     
     public IWeapon Weapon {  get; private set; }
 
@@ -49,6 +52,7 @@ public class Player : MonoBehaviour
         CharacterManager.Instance.Player = this;
         _hasNMAgent = TryGetComponent(out Agent);
         animator = GetComponentInChildren<Animator>();
+        condition = GetComponent<PlayerCondition>();
 
         Input = GetComponent<PlayerController>();
         controller = GetComponent<CharacterController>();
@@ -65,13 +69,14 @@ public class Player : MonoBehaviour
         HealthSystem.OnDeath += OnDie;
         StateMachine.ChangeState(StateMachine.IdleState);
 
-        Weapon = GameObject.FindGameObjectWithTag("WeaponTest").GetComponent<IWeapon>();
+        Weapon = WeaponObject.GetComponent<IWeapon>();
     }
 
     private void OnDie()
     {
         HealthSystem.ChangeHealth(HealthSystem.MaxHealth);
         transform.position = Vector3.zero;
+        Debug.Log("PlayerDead");
     }
 
     private void Update()

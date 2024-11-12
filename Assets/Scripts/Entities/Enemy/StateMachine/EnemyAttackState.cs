@@ -16,7 +16,6 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void Enter()
     {
-        stateMachine.WalkSpeed = 0;
         base.Enter();
 
         this.AttackDelay = stateMachine.Enemy.EnemyData.AttackDelay;
@@ -29,7 +28,6 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void Exit()
     {
-        stateMachine.WalkSpeed = 1f;
         base.Exit();
         SetAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash, false);
     }
@@ -37,6 +35,12 @@ public class EnemyAttackState : EnemyBaseState
     public override void Update()
     {
         base.Update();
+
+        if (!IsInAttackDistance())
+        {
+            stateMachine.ChangeState(stateMachine.ChasingState);
+        }
+
         LastAttackTime += Time.deltaTime;
         if( LastAttackTime > AttackDelay)
         {
@@ -60,10 +64,6 @@ public class EnemyAttackState : EnemyBaseState
             {
                 stateMachine.Enemy.Weapon.ToggleWeaponCollider(false);
             }
-        }
-        else 
-        {
-            stateMachine.ChangeState(stateMachine.ChasingState);
         }
     }
 }

@@ -31,6 +31,7 @@ public class EnemyBaseState : IState
 
     public virtual void Update()
     {
+        if (!stateMachine.Enemy.Agent.isActiveAndEnabled) return;
         float speed = stateMachine.Enemy.EnemyData.Speed;
         stateMachine.Enemy.Agent.speed = speed;
         stateMachine.Enemy.animator.SetFloat(stateMachine.Enemy.AnimationData.SpeedParameterHash, speed);

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Skeleton_Minion
   m_EditorClassIdentifier: 
   <WeaponDamage>k__BackingField: 10
-  <AttackDelay>k__BackingField: 1
+  <AttackDelay>k__BackingField: 5
   <AttackRange>k__BackingField: 2

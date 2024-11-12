@@ -19,8 +19,8 @@ public class PlayerAttackState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.WalkSpeedModifier = 0f;
         this.AttackDelay = stateMachine.Player.Weapon.WeaponData.AttackDelay;
+        LastAttackTime = 0f;
         SetAnimation(stateMachine.Player.AnimationData.AttackParameterHash, true);
 
         alreadyAppliedDealing = false;
@@ -47,24 +47,37 @@ public class PlayerAttackState : PlayerBaseState
             stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
-    private void Attack()
+
+private void Attack()
+{
+    SetAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
+    float normalizedTime = GetNormalizedTime(stateMachine.Player.animator, "Attack");
+
+    if (normalizedTime < 1f)
     {
-        SetAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
-        float normalizedTime = GetNormalizedTime(stateMachine.Player.animator, "Attack");
-        if (normalizedTime < 1f)
+        if (!alreadyAppliedDealing && normalizedTime >= stateMachine.Player.PlayerData.AttackData.Dealing_Start_TransitionTime)
         {
-            if (!alreadyAppliedDealing && normalizedTime >= stateMachine.Player.PlayerData.AttackData.Dealing_Start_TransitionTime)
-            {
-                stateMachine.Player.Weapon.ToggleWeaponCollider(true);
-                stateMachine.Player.Weapon.Attack();
-                alreadyAppliedDealing = true;
-            }
-            if (alreadyAppliedDealing && normalizedTime >= stateMachine.Player.PlayerData.AttackData.Dealing_End_TransitionTime)
-            {
-                stateMachine.Player.Weapon.ToggleWeaponCollider(false);
-            }
+            stateMachine.Player.Weapon.ToggleWeaponCollider(true);
+            Debug.Log("Collider On at time: " + normalizedTime);
+            stateMachine.Player.Weapon.Attack();
+            alreadyAppliedDealing = true;
         }
-
-
+        else if (alreadyAppliedDealing && normalizedTime >= stateMachine.Player.PlayerData.AttackData.Dealing_End_TransitionTime)
+        {
+            stateMachine.Player.Weapon.ToggleWeaponCollider(false);
+            Debug.Log("Collider Off at time: " + normalizedTime);
+            alreadyAppliedDealing = false; // 초기화
+        }
     }
+    else if (normalizedTime >= 1f) // 공격 종료 시 초기화
+    {
+        if (stateMachine.Player.Weapon.ColliderEnalbed)
+        {
+            stateMachine.Player.Weapon.ToggleWeaponCollider(false);
+            Debug.Log("Collider forced off at end of attack.");
+        }
+        alreadyAppliedDealing = false; // 초기화
+    }
+}
+
 }

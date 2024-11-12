@@ -5,15 +5,25 @@ using UnityEngine;
 public class Axe_Small : MonoBehaviour, IWeapon
 {
     [SerializeField] private Collider myCollider;
+    private Collider weaponCollier;
 
     [field: SerializeField] public WeaponSO WeaponData { get; private set; }
 
     //플레이어의 데미지까지해서 로직추가
-    private float TotalDamage => WeaponData.WeaponDamage;
+    private float TotalDamage => WeaponData.WeaponDamage + CharacterManager.Instance.Player.PlayerData.AttackData.Damage * 1.2f;
+
+    public bool ColliderEnalbed => weaponCollier.enabled;
+
+    private HashSet<Collider> hitTargets = new HashSet<Collider>();
+
+    private void Start()
+    {
+        weaponCollier = GetComponent<Collider>();
+    }
 
     public void Attack()
     {
-
+        hitTargets.Clear();
     }
 
 
@@ -24,19 +34,20 @@ public class Axe_Small : MonoBehaviour, IWeapon
 
     public void ToggleWeaponCollider(bool state)
     {
-        Collider collider = GetComponent<Collider>();
-        collider.enabled = state;
+        weaponCollier.enabled = state;
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other == myCollider) return;
+        if (other == myCollider || hitTargets.Contains(other)) return;
 
-        if(other.TryGetComponent<HealthSystem>(out HealthSystem health))
+        if (other.TryGetComponent<HealthSystem>(out HealthSystem health))
         {
             if (health.ChangeHealth(-TotalDamage))
             {
-                //데미지 주었으니 이펙트를 켜줌
+                Debug.Log($"{other.name}에게 {TotalDamage}만큼의 데미지를 주었습니다.");
+                hitTargets.Add(other);
             }
         }
     }

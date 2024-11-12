@@ -11,7 +11,6 @@ public class EnemyChasingState : EnemyBaseState
 
     public override void Enter()
     {
-        Debug.Log("적 추적상태 돌입");
         stateMachine.RunSpeed = 2f;
         base.Enter();
         SetAnimation(stateMachine.Enemy.AnimationData.GroundParameterHash, true);
@@ -35,7 +34,14 @@ public class EnemyChasingState : EnemyBaseState
     private void Chase()
     {
         Vector3 targetPos = CharacterManager.Instance.Player.transform.position;
-        stateMachine.Enemy.Agent.SetDestination(targetPos);
+        if (!stateMachine.Enemy.Agent.isActiveAndEnabled) 
+        {
+            return;
+        }
+        else
+        {
+            stateMachine.Enemy.Agent.SetDestination(targetPos);
+        }
 
         if (IsInAttackDistance())
         {

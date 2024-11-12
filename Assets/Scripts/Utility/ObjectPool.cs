@@ -7,6 +7,7 @@ public enum PoolTag
 {
     Skeleton_Minion,
     Skeleton_Mage,
+    MonsterCount,
     Coin
 }
 
