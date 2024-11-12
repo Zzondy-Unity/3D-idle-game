@@ -9,7 +9,6 @@ public class EnemyUnarmed : MonoBehaviour, IWeapon
 
     [field: SerializeField] public WeaponSO WeaponData { get; private set; }
     private float TotalDamage => WeaponData.WeaponDamage;
-    public bool ColliderEnalbed => weaponCollider.enabled;
 
     private void Awake()
     {

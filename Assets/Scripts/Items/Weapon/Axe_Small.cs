@@ -12,8 +12,6 @@ public class Axe_Small : MonoBehaviour, IWeapon
     //플레이어의 데미지까지해서 로직추가
     private float TotalDamage => WeaponData.WeaponDamage + CharacterManager.Instance.Player.PlayerData.AttackData.Damage * 1.2f;
 
-    public bool ColliderEnalbed => weaponCollier.enabled;
-
     private HashSet<Collider> hitTargets = new HashSet<Collider>();
 
     private void Start()

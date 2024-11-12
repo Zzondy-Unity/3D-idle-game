@@ -9,7 +9,6 @@ public interface IWeapon
     public void Attack();
     public float GetWeaponRange();
     public void ToggleWeaponCollider(bool state);
-    bool ColliderEnalbed { get; }
     public WeaponSO WeaponData { get; }
 }
 

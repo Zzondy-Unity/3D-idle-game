@@ -75,7 +75,7 @@ public class Enemy : MonoBehaviour
         EventBus.Publish(EventType.EnemyDead);
         Debug.Log("Àû Á×À½");
 
-        Invoke("Destroy", 2.5f);
+        Invoke("Destroy", 0.5f);
     }
 
     private void Destroy()

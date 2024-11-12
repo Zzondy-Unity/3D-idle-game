@@ -22,8 +22,8 @@ public class HealthSystem : MonoBehaviour
 
     private void Start()
     {
-        CurrentHealth = data.MaxHP;
         MaxHealth = data.MaxHP;
+        CurrentHealth = MaxHealth;
     }
 
     private void Update()

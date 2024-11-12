@@ -16,7 +16,7 @@ MonoBehaviour:
   <MaxMP>k__BackingField: 100
   <WalkSpeed>k__BackingField: 5
   <RunSpeed>k__BackingField: 2
-  <AttackDistance>k__BackingField: 2
+  <AttackDistance>k__BackingField: 1
   <Damage>k__BackingField: 10
   <AttackDelay>k__BackingField: 3
   <Dealing_Start_TransitionTime>k__BackingField: 0.1

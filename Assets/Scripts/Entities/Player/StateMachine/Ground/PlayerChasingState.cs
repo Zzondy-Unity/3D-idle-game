@@ -41,7 +41,7 @@ public class PlayerChasingState : PlayerGroundState
 
         if (!IsInDetectDistance())
         {
-            stateMachine.ChangeState(stateMachine.IdleState);
+            stateMachine.ChangeState(stateMachine.AutoMoveState);
             return;
         }
 
@@ -55,7 +55,6 @@ public class PlayerChasingState : PlayerGroundState
         float minDistance = float.MaxValue;
         Vector3 target = Vector3.zero;
 
-        //없으면 가장 가까운 몬스터 타겟으로 => 업데이트문에서 해도 되나?
         for (int i = 0; i < detecteds.Length; i++)
         {
             if ((player.transform.position - detecteds[i].transform.position).sqrMagnitude < minDistance)
