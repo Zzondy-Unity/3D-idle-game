@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public interface IWeapon
 {
     public void Attack();
     public float GetWeaponRange();
+    public void ToggleWeaponCollider(bool state);
     public WeaponSO WeaponData { get; }
 }
 
@@ -44,6 +46,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        CharacterManager.Instance.Player = this;
         _hasNMAgent = TryGetComponent(out Agent);
         animator = GetComponentInChildren<Animator>();
 
@@ -59,9 +62,16 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        HealthSystem.OnDeath += OnDie;
         StateMachine.ChangeState(StateMachine.IdleState);
 
         Weapon = GameObject.FindGameObjectWithTag("WeaponTest").GetComponent<IWeapon>();
+    }
+
+    private void OnDie()
+    {
+        HealthSystem.ChangeHealth(HealthSystem.MaxHealth);
+        transform.position = Vector3.zero;
     }
 
     private void Update()

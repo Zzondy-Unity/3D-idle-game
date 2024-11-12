@@ -47,12 +47,6 @@ public class EnemyBaseState : IState
         stateMachine.Enemy.animator.SetTrigger(animationHash);
     }
 
-    protected bool IsInDetectDistance()
-    {
-        RaycastHit[] hits = InDistance(stateMachine.Enemy.EnemyData.DetectDistance);
-        return hits.Length > 0;
-    }
-
     protected bool IsInAttackDistance()
     {
         RaycastHit[] hits = InDistance(stateMachine.Enemy.EnemyData.AttackDistance);
@@ -65,5 +59,24 @@ public class EnemyBaseState : IState
         hits = Physics.SphereCastAll(stateMachine.Enemy.transform.position, range, Vector3.up, 0f, TargetLayerMask);
 
         return hits;
+    }
+
+    protected float GetNormalizedTime(Animator animator, string tag)
+    {
+        AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
+
+        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        {
+            return nextInfo.normalizedTime;
+        }
+        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
+        {
+            return currentInfo.normalizedTime;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }

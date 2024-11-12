@@ -62,7 +62,7 @@ public class PlayerChasingState : PlayerGroundState
             {
                 minDistance = player.transform.position.sqrMagnitude;
                 target = detecteds[i].transform.position;
-                Debug.Log($"detected target is {detecteds[i]}\nposition is {target}");
+                Debug.Log($"detected target is {detecteds[i].collider.name}\nposition is {target}");
             }
         }
         player.Agent.SetDestination(target);

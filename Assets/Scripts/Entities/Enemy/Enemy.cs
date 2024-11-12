@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,11 @@ public class Enemy : MonoBehaviour
 
     [Space(10)]
     [SerializeField] public LayerMask TargetLayerMask;
-    public PlayerStateMachine StateMachine;
+    public EnemyStateMachine StateMachine;
+
+    [field: Header("Attack")]
+    public IWeapon Weapon { get; private set; }
+    public GameObject WeaponObject;
 
     private void Awake()
     {
@@ -32,7 +37,37 @@ public class Enemy : MonoBehaviour
 
         AnimationData.InitNameToHash();
 
-        //StateMachine = new PlayerStateMachine(this);
+        StateMachine = new EnemyStateMachine(this);
     }
 
+    private void Start()
+    {
+        HealthSystem.OnDeath += OnDie;
+
+        StateMachine.ChangeState(StateMachine.ChasingState);
+        Weapon = WeaponObject.GetComponent<IWeapon>();
+    }
+
+    private void Update()
+    {
+        StateMachine?.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        StateMachine?.PhysicsUpdate();
+    }
+
+    private void OnDie()
+    {
+        animator.SetTrigger(AnimationData.OnDieParameterHash);
+        Debug.Log("적 죽음");
+        Invoke("Destroy", 2.5f);
+    }
+
+    private void Destroy()
+    {
+        //오브젝트 풀로 이동 + 재화뿌림
+        Destroy(gameObject);
+    }
 }

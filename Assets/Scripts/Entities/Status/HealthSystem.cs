@@ -49,6 +49,7 @@ public class HealthSystem : MonoBehaviour
 
         if (CurrentHealth <= 0)
         {
+            Debug.Log($"{gameObject.name}이 죽음");
             OnDeath?.Invoke();
             return true;
         }
@@ -58,6 +59,7 @@ public class HealthSystem : MonoBehaviour
         }
         else
         {
+            Debug.Log($"{gameObject.name}이 {amount}의 데미지를 입음");
             OnDamage?.Invoke();
             isAttacked = true;
         }

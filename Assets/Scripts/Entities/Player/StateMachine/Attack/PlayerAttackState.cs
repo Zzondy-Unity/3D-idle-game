@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttackState : PlayerBaseState
 {
+    private bool alreadyAppliedDealing;
 
     float AttackDelay;
     float LastAttackTime;
@@ -20,6 +22,8 @@ public class PlayerAttackState : PlayerBaseState
         stateMachine.WalkSpeedModifier = 0f;
         this.AttackDelay = stateMachine.Player.Weapon.WeaponData.AttackDelay;
         SetAnimation(stateMachine.Player.AnimationData.AttackParameterHash, true);
+
+        alreadyAppliedDealing = false;
     }
 
     public override void Exit()
@@ -32,11 +36,10 @@ public class PlayerAttackState : PlayerBaseState
     {
         base.Update();
         LastAttackTime += Time.deltaTime;
-        if(LastAttackTime > AttackDelay)
+        if (LastAttackTime > AttackDelay)
         {
             LastAttackTime = 0f;
-            stateMachine.Player.Weapon.Attack();
-            SetAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
+            Attack();
         }
         //주변에 적이 없을 시 다시 이동
         if (!IsInAttackDistance())
@@ -44,6 +47,24 @@ public class PlayerAttackState : PlayerBaseState
             stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
+    private void Attack()
+    {
+        SetAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
+        float normalizedTime = GetNormalizedTime(stateMachine.Player.animator, "Attack");
+        if (normalizedTime < 1f)
+        {
+            if (!alreadyAppliedDealing && normalizedTime >= stateMachine.Player.PlayerData.AttackData.Dealing_Start_TransitionTime)
+            {
+                stateMachine.Player.Weapon.ToggleWeaponCollider(true);
+                stateMachine.Player.Weapon.Attack();
+                alreadyAppliedDealing = true;
+            }
+            if (alreadyAppliedDealing && normalizedTime >= stateMachine.Player.PlayerData.AttackData.Dealing_End_TransitionTime)
+            {
+                stateMachine.Player.Weapon.ToggleWeaponCollider(false);
+            }
+        }
 
 
+    }
 }

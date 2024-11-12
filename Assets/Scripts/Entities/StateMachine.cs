@@ -15,11 +15,9 @@ public abstract class StateMachine
 
     public void ChangeState(IState state)
     {
-        Debug.Log($"현재 상태 : {currentState}");
         currentState?.Exit();
         currentState = state;
         currentState.Enter();
-        Debug.Log($"다음 상태 : {state}");
     }
 
     public void HandleInput()

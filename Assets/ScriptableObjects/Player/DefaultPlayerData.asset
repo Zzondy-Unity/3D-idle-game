@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6cd775f8b3ccc449fff034a8ef6e2c, type: 3}
   m_Name: DefaultPlayerData
   m_EditorClassIdentifier: 
+  <MaxHP>k__BackingField: 100
+  <MaxMP>k__BackingField: 100
   <GroundData>k__BackingField:
     <BaseSpeed>k__BackingField: 5
     <BaseRotationDamping>k__BackingField: 1
@@ -22,4 +24,6 @@ MonoBehaviour:
     <DetectTerm>k__BackingField: 0.5
   <AttackData>k__BackingField:
     <AttackName>k__BackingField: BaseAttack
-    <Damage>k__BackingField: 10
+    <Damage>k__BackingField: 100
+    <Dealing_Start_TransitionTime>k__BackingField: 0.1
+    <Dealing_End_TransitionTime>k__BackingField: 0.8
