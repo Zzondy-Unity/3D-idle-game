@@ -15,7 +15,6 @@ public class HealthSystem : MonoBehaviour
     public event Action OnDamage;
     public event Action OnHeal;
     public event Action OnDeath;
-    public event Action OnInvincibilityEnd;
 
     private bool isAttacked = false;
 
@@ -28,20 +27,19 @@ public class HealthSystem : MonoBehaviour
 
     private void Update()
     {
-        if(isAttacked && LastChanged < healthChangeDelay)
+        if (isAttacked)
         {
             LastChanged += Time.deltaTime;
-            if(LastChanged >= healthChangeDelay)
+            if (LastChanged >= healthChangeDelay)
             {
-                OnInvincibilityEnd?.Invoke();
-                isAttacked = true;
+                isAttacked = false;
             }
         }
     }
 
     public bool ChangeHealth(float amount)
     {
-        if (LastChanged < healthChangeDelay) return false;
+        if (isAttacked && LastChanged < healthChangeDelay) return false;
 
         LastChanged = 0f;
         CurrentHealth += amount;

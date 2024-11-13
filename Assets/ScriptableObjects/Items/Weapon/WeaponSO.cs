@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu (fileName = ("DefaultWeaponSO"), menuName = ("Items/Weapon"))]
-public class WeaponSO : ScriptableObject
+public class WeaponSO : ItemSO
 {
     //기본데미지의 배수 + 무기데미지
     [field: SerializeField] public float WeaponDamage { get; private set; }

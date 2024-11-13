@@ -76,7 +76,7 @@ public class PlayerBaseState : IState
 
     protected bool IsInAttackDistance()
     {
-        RaycastHit[] hits = InDistance(stateMachine.Player.Weapon.GetWeaponRange());
+        RaycastHit[] hits = InDistance(EquipManager.Instance.Weapon.GetWeaponRange());
         return hits.Length > 0;
     }
 

@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68903628759b1464e9a72a293bf02e13, type: 3}
   m_Name: Skeleton_Minion
   m_EditorClassIdentifier: 
+  itemName: 
+  description: 
+  id: 10
+  icon: {fileID: 0}
   <WeaponDamage>k__BackingField: 10
   <AttackDelay>k__BackingField: 5
   <AttackRange>k__BackingField: 2

@@ -37,14 +37,8 @@ public class Player : MonoBehaviour
 
     public PlayerStateMachine StateMachine;
 
-    public GameObject WeaponObject;
-    
-    public IWeapon Weapon {  get; private set; }
-
-    public void SetWeapon(IWeapon weapon)
-    {
-        this.Weapon = weapon;
-    }
+    [Header("Item")]
+    public  Action<ItemSO> AddItem;
 
     private void Awake()
     {
@@ -67,8 +61,6 @@ public class Player : MonoBehaviour
     {
         HealthSystem.OnDeath += OnDie;
         StateMachine.ChangeState(StateMachine.IdleState);
-
-        Weapon = WeaponObject.GetComponent<IWeapon>();
     }
 
     private void OnDie()

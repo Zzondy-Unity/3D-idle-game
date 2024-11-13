@@ -6,6 +6,15 @@ public class Coin : MonoBehaviour
 {
     public float moveSpeed = 1f;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            GameManager.Instance.curGold++;
+            gameObject.SetActive(false);
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Magnetic"))

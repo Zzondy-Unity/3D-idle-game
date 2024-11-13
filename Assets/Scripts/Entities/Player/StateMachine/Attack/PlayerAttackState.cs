@@ -17,7 +17,7 @@ public class PlayerAttackState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        this.AttackDelay = stateMachine.Player.Weapon.WeaponData.AttackDelay;
+        this.AttackDelay = EquipManager.Instance.Weapon.WeaponData.AttackDelay;
         LastAttackTime = 0f;
         SetAnimation(stateMachine.Player.AnimationData.AttackParameterHash, true);
 
@@ -41,15 +41,25 @@ public class PlayerAttackState : PlayerBaseState
         //주변에 적이 없을 시 다시 이동
         if (!IsInAttackDistance())
         {
-            stateMachine.ChangeState(stateMachine.IdleState);
+            stateMachine.ChangeState(stateMachine.AutoMoveState);
         }
     }
 
     private void Attack()
     {
-        SetAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
-
-        stateMachine.Player.Weapon.Attack();
+        float normalizeTime = GetNormalizedTime(stateMachine.Player.animator, "Attack");
+        if(normalizeTime < 1f)
+        {
+            if(normalizeTime >= stateMachine.Player.PlayerData.AttackData.Dealing_End_TransitionTime)
+            {
+                EquipManager.Instance.Weapon.ToggleWeaponCollider(false);
+            }
+            if(normalizeTime >= stateMachine.Player.PlayerData.AttackData.Dealing_Start_TransitionTime)
+            {
+                EquipManager.Instance.Weapon.ToggleWeaponCollider(true);
+                EquipManager.Instance.Weapon.Attack();
+                SetAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
+            }
+        }
     }
-
 }
