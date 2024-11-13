@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Inventory : MonoBehaviour
 {
     public Slot[] slots;
     [SerializeField] private TextMeshProUGUI itemNameText;
+    [SerializeField] private GameObject BG;
 
     private ItemSO selectedItemData;
     private int selectedItemIndex;
@@ -16,14 +18,12 @@ public class Inventory : MonoBehaviour
     private int curEquipIndex;
 
 
-    private void Awake()
-    {
-        Init();
-    }
 
     private void Start()
     {
+        Init();
         CharacterManager.Instance.Player.AddItem += GetItem;
+        CharacterManager.Instance.Player.Input.playerActions.Inventory.started += ToggleInventory;
     }
 
     public void Init()
@@ -31,8 +31,10 @@ public class Inventory : MonoBehaviour
         for(int i  = 0; i < slots.Length; i++)
         {
             slots[i].slotIndex = i;
+            slots[i].inventory = this;
             slots[i].Clear();
         }
+        BG.SetActive(false);
     }
 
     private void SelectedReset()
@@ -41,18 +43,18 @@ public class Inventory : MonoBehaviour
         selectedItemIndex = -1;
     }
 
-    public void ToggleInventory()
+    public void ToggleInventory(InputAction.CallbackContext context)
     {
         SelectedReset();
-        bool isOpen = IsOpen();
-        gameObject.SetActive(!isOpen);
+        bool isOpen = !IsOpen();
+        BG.SetActive(isOpen);
         Cursor.lockState = isOpen ? CursorLockMode.None : CursorLockMode.Locked;
         Time.timeScale = isOpen ? 0 : 1;
     }
 
     private bool IsOpen()
     {
-        return gameObject.activeInHierarchy;
+        return BG.activeInHierarchy;
     }
 
     private void InventoryUpdate()

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Axe_Small : MonoBehaviour, IWeapon
 {
-    [SerializeField] private Collider myCollider;
-    private Collider weaponCollier;
+    [SerializeField] private BoxCollider weaponCollier;
 
     [field: SerializeField] public WeaponSO WeaponData { get; private set; }
 
@@ -15,7 +14,7 @@ public class Axe_Small : MonoBehaviour, IWeapon
 
     private void Start()
     {
-        weaponCollier = GetComponent<Collider>();
+        weaponCollier.enabled = false;
     }
 
     public void Attack()
@@ -33,6 +32,7 @@ public class Axe_Small : MonoBehaviour, IWeapon
     public void ToggleWeaponCollider(bool state)
     {
         weaponCollier.enabled = state;
+        Debug.Log($"콜라이더가 {state}상태가 되었습니다.");
     }
 
 

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: 
   description: 
-  id: 0
+  id: 1
   icon: {fileID: 0}
   <WeaponDamage>k__BackingField: 100
-  <AttackDelay>k__BackingField: 0.2
+  <AttackDelay>k__BackingField: 0.5
   <AttackRange>k__BackingField: 5
+  <PrefabName>k__BackingField: Axe_small_R

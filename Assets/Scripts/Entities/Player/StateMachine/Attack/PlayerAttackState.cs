@@ -50,15 +50,15 @@ public class PlayerAttackState : PlayerBaseState
         float normalizeTime = GetNormalizedTime(stateMachine.Player.animator, "Attack");
         if(normalizeTime < 1f)
         {
-            if(normalizeTime >= stateMachine.Player.PlayerData.AttackData.Dealing_End_TransitionTime)
-            {
-                EquipManager.Instance.Weapon.ToggleWeaponCollider(false);
-            }
             if(normalizeTime >= stateMachine.Player.PlayerData.AttackData.Dealing_Start_TransitionTime)
             {
                 EquipManager.Instance.Weapon.ToggleWeaponCollider(true);
                 EquipManager.Instance.Weapon.Attack();
                 SetAnimation(stateMachine.Player.AnimationData.ComboAttackParameterHash);
+            }
+            else if(normalizeTime >= stateMachine.Player.PlayerData.AttackData.Dealing_End_TransitionTime)
+            {
+                EquipManager.Instance.Weapon.ToggleWeaponCollider(false);
             }
         }
     }

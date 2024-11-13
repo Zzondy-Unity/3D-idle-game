@@ -53,6 +53,15 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2212627-8ce0-4738-9aef-dc0e22abf86e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7580a8fd-d936-4298-ae43-2918abf3ede8"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -160,6 +180,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -224,6 +245,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Inventory;
     public struct PlayerActions
     {
         private @Inputs m_Wrapper;
@@ -231,6 +253,7 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -249,6 +272,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -262,6 +288,9 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -293,5 +322,6 @@ public partial class @Inputs: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

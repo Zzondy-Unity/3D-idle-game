@@ -9,6 +9,7 @@ public class WeaponSO : ItemSO
     [field: SerializeField] public float WeaponDamage { get; private set; }
     [field: SerializeField] public float AttackDelay { get; private set; }
     [field: SerializeField] public float AttackRange { get; private set; } = 10f;
+    [field: SerializeField] public string PrefabName {  get; private set; }
 }
 
 //원거리무기는 상속받는걸로

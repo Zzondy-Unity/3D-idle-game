@@ -37,11 +37,10 @@ public class Slot : MonoBehaviour
 
     public void Clear()
     {
-        outlineDisable();
         itemData = null;
         itemCount = 0;
         countText.text = string.Empty;
-        icon.gameObject.SetActive(false);
+        icon.sprite = null;
     }
 
     public void Set()
