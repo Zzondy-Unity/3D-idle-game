@@ -5,12 +5,16 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
     public Slot[] slots;
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private GameObject BG;
+
+    [SerializeField] private Button UseButton;
+    [SerializeField] private Button EquipButton;
 
     private ItemSO selectedItemData;
     private int selectedItemIndex;
@@ -24,6 +28,9 @@ public class Inventory : MonoBehaviour
         Init();
         CharacterManager.Instance.Player.AddItem += GetItem;
         CharacterManager.Instance.Player.Input.playerActions.Inventory.started += ToggleInventory;
+
+        UseButton.onClick.AddListener(UseBtn);
+        EquipButton.onClick.AddListener(EquipBtn);
     }
 
     public void Init()
@@ -46,6 +53,7 @@ public class Inventory : MonoBehaviour
     public void ToggleInventory(InputAction.CallbackContext context)
     {
         SelectedReset();
+        InventoryUpdate();
         bool isOpen = !IsOpen();
         BG.SetActive(isOpen);
         Cursor.lockState = isOpen ? CursorLockMode.None : CursorLockMode.Locked;
@@ -82,6 +90,7 @@ public class Inventory : MonoBehaviour
         {
             Slot emptySlot = GetEmptySlot();    //빈 슬롯이 없는경우는 일단 상정하지 않겠음
             emptySlot.itemData = data;
+            emptySlot.itemCount++;
             emptySlot.Set();
         }
         else
@@ -121,20 +130,37 @@ public class Inventory : MonoBehaviour
         if (slots[selectedItemIndex].itemData is IUsable usable)
         {
             usable.Use();   //추후 포션 의외의 다른 사용아이템이 생길때를 대비해 인터페이스 사용
+            RemoveItem();
         }
+        InventoryUpdate();
+        SelectItemSlot(selectedItemIndex);
+    }
+
+    private void RemoveItem()
+    {
+        slots[selectedItemIndex].itemCount--;
+        slots[selectedItemIndex].Set();
     }
 
     public void EquipBtn()
     {
         if (slots[selectedItemIndex].itemData is WeaponSO weaponData)
         {
+            ResetEquippedSlotOutline();
 
+            EquipManager.Instance.EquipItem(weaponData);
+            slots[selectedItemIndex].outlineEnable();
         }
     }
 
-    //아이템 획득
-    //아이템 사용
-    //아이템 장착
-
-
+    private void ResetEquippedSlotOutline()
+    {
+        for(int i =0; i< slots.Length; i++)
+        {
+            if (slots[i].equipped == true)
+            {
+                slots[i].outlineDisable();
+            }
+        }
+    }
 }

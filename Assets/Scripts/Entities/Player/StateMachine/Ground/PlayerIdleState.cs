@@ -8,14 +8,14 @@ public class PlayerIdleState : PlayerGroundState
     {
         stateMachine.WalkSpeedModifier = 0f;
         base.Enter();
-        SetAnimation(stateMachine.Player.AnimationData.IdleParameterHash, true);
+        StartAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
 
     }
 
     public override void Exit()
     {
         base.Exit();
-        SetAnimation(stateMachine.Player.AnimationData.IdleParameterHash, false);
+        StopAnimation(stateMachine.Player.AnimationData.IdleParameterHash);
     }
 
     public override void Update()

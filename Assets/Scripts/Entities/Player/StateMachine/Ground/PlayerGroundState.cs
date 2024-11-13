@@ -11,12 +11,12 @@ public class PlayerGroundState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        SetAnimation(stateMachine.Player.AnimationData.GroundParameterHash, true);
+        StartAnimation(stateMachine.Player.AnimationData.GroundParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        SetAnimation(stateMachine.Player.AnimationData.GroundParameterHash, false);
+        StopAnimation(stateMachine.Player.AnimationData.GroundParameterHash);
     }
 }

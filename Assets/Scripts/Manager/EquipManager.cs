@@ -12,6 +12,7 @@ public class EquipManager : Singleton<EquipManager>
     private Dictionary<int, string> weaponDictionary = new Dictionary<int, string>();
 
     public IWeapon Weapon { get; private set; }
+    private GameObject curEquipObject;
 
     public void SetWeapon(IWeapon weapon)
     {
@@ -31,13 +32,18 @@ public class EquipManager : Singleton<EquipManager>
 
     public void EquipItem(WeaponSO weaponData)
     {
+        if(Weapon != null)
+        {
+            Destroy(curEquipObject);
+        }
+
         int itemIndex = weaponData.id;
         string prefabPath = path + weaponDictionary[itemIndex];
-        GameObject newWeapon = Resources.Load<GameObject>(prefabPath);
+        GameObject WeaponPrefab = Resources.Load<GameObject>(prefabPath);
 
-        Instantiate(newWeapon, weaponJoint);
+        curEquipObject = Instantiate(WeaponPrefab, weaponJoint);
 
-        IWeapon newIWeapon = newWeapon.GetComponent<IWeapon>();
+        IWeapon newIWeapon = curEquipObject.GetComponent<IWeapon>();
         SetWeapon(newIWeapon);
     }
 }

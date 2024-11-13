@@ -19,13 +19,13 @@ public class PlayerAutoMoveState : PlayerGroundState
     {
         stateMachine.WalkSpeedModifier = 1f;
         base.Enter();
-        SetAnimation(stateMachine.Player.AnimationData.MoveParameterHash, true);
+        StartAnimation(stateMachine.Player.AnimationData.MoveParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        SetAnimation(stateMachine.Player.AnimationData.MoveParameterHash, false);
+        StopAnimation(stateMachine.Player.AnimationData.MoveParameterHash);
     }
 
     public override void Update()

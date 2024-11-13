@@ -58,15 +58,15 @@ public class PlayerBaseState : IState
 
     }
 
-    protected void SetAnimation(int animationHash, bool animState)
+    protected void StartAnimation(int animationHash)
     {
-        stateMachine.Player.animator.SetBool(animationHash, animState);
+        stateMachine.Player.animator.SetBool(animationHash, true);
+    }
+    protected void StopAnimation(int animationHash)
+    {
+        stateMachine.Player.animator.SetBool(animationHash, false);
     }
 
-    protected void SetAnimation(int animationHash)
-    {
-        stateMachine.Player.animator.SetTrigger(animationHash);
-    }
 
     protected bool IsInDetectDistance()
     {

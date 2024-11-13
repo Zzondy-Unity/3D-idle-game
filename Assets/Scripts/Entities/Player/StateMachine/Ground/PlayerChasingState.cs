@@ -14,14 +14,14 @@ public class PlayerChasingState : PlayerGroundState
         isChasing = false;
         stateMachine.RunSpeedModifier = 2f;
         base.Enter();
-        SetAnimation(stateMachine.Player.AnimationData.MoveParameterHash, true);
+        StartAnimation(stateMachine.Player.AnimationData.MoveParameterHash);
     }
 
     public override void Exit()
     {
         stateMachine.RunSpeedModifier = 1f;
         base.Exit();
-        SetAnimation(stateMachine.Player.AnimationData.MoveParameterHash, false);
+        StopAnimation(stateMachine.Player.AnimationData.MoveParameterHash);
     }
 
     public override void Update()
@@ -35,7 +35,7 @@ public class PlayerChasingState : PlayerGroundState
     {
         if (IsInAttackDistance())
         {
-            stateMachine.ChangeState(stateMachine.AttackState);
+            stateMachine.ChangeState(stateMachine.ComboAttackState);
             return;
         }
 

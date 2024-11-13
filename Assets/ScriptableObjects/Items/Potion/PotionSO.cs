@@ -14,6 +14,8 @@ public enum PotionType
     Attack
 }
 
+[CreateAssetMenu(fileName = ("DefaultPotion"), menuName = ("Items/Potion"))]
+
 public class PotionSO : ItemSO, IUsable
 {
     public float value;

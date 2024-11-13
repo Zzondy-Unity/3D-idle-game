@@ -32,7 +32,7 @@ public class Axe_Small : MonoBehaviour, IWeapon
     public void ToggleWeaponCollider(bool state)
     {
         weaponCollier.enabled = state;
-        Debug.Log($"콜라이더가 {state}상태가 되었습니다.");
+        Debug.Log($"실제 콜라이더는 {weaponCollier.enabled}상태입니다.");
     }
 
 
@@ -45,6 +45,7 @@ public class Axe_Small : MonoBehaviour, IWeapon
             if (health.ChangeHealth(-TotalDamage))
             {
                 hitTargets.Add(other);
+                Debug.Log($"{other.name}에게 {TotalDamage}의 데미지를 입혔습니다.");
             }
         }
     }

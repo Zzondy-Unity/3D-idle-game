@@ -47,10 +47,15 @@ public class Slot : MonoBehaviour
     {
         if(itemData != null)
         {
-            icon.gameObject.SetActive (true);
-            icon.sprite = itemData.icon;
-            countText.text = itemCount == 0? string.Empty : itemCount.ToString();
-            outline.enabled = equipped;
+            if (itemCount == 0)
+                Clear();
+            else
+            {
+                icon.gameObject.SetActive(true);
+                icon.sprite = itemData.icon;
+                countText.text = itemCount == 0 ? string.Empty : itemCount.ToString();
+                outline.enabled = equipped;
+            }
         }
         else
         {
