@@ -42,11 +42,13 @@ public class EnemySpawner : MonoBehaviour
                     NavMeshAgent agent = newMonster.GetComponent<NavMeshAgent>();
                     agent.enabled = true;
                     if (agent.isOnNavMesh) return;
-                    else Debug.Log("this is not on NavMesh");
                 }
             }
         }
     }
 
+    private void DifficultyByStage()
+    {
 
+    }
 }

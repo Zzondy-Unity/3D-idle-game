@@ -35,7 +35,7 @@ public class PlayerChasingState : PlayerGroundState
     {
         if (IsInAttackDistance())
         {
-            stateMachine.ChangeState(stateMachine.ComboAttackState);
+            stateMachine.ChangeState(stateMachine.AttackState);
             return;
         }
 

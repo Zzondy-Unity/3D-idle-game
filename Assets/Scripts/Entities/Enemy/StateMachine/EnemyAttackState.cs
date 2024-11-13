@@ -65,5 +65,19 @@ public class EnemyAttackState : EnemyBaseState
                 stateMachine.Enemy.Weapon.ToggleWeaponCollider(false);
             }
         }
+        else
+        {
+            if (IsInAttackDistance())
+            {
+                stateMachine.ChangeState(stateMachine.ChasingState);
+                return;
+            }
+            else
+            {
+                stateMachine.ChangeState(stateMachine.IdleSate);
+                return;
+            }
+        }
+
     }
 }

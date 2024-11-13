@@ -23,7 +23,16 @@ public class PlayerIdleState : PlayerGroundState
         base.Update();
         //체크용
         //실제로는 AutoMove가 켜지면
-        stateMachine.ChangeState(stateMachine.AutoMoveState);
-        return;
+
+        if (IsInAttackDistance())
+        {
+            stateMachine.ChangeState(stateMachine.AttackState);
+            return;
+        }
+        else
+        {
+            stateMachine.ChangeState(stateMachine.AutoMoveState);
+            return;
+        }
     }
 }

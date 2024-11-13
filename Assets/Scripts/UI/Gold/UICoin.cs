@@ -12,4 +12,9 @@ public class UICoin : MonoBehaviour
     {
         coinTxt.text = Gold.ToString() + "G";
     }
+
+    private void Update()
+    {
+        UIUpdate();
+    }
 }
