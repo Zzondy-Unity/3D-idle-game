@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
     {
         HealthSystem.OnDeath += OnDie;
         StateMachine.ChangeState(StateMachine.IdleState);
+        Agent.SetDestination(nextStagePoint.position);
     }
 
     private void OnDie()

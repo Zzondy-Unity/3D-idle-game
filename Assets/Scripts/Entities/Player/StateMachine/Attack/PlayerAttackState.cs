@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAttackState : PlayerBaseState
+public class PlayerAttackState : PlayerGroundState
 {
-
-    //전략패턴 적용해서 여러무기를 다양하게 사용
-
     public PlayerAttackState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
 
     float AttackDelay;
-    float LastAttackTime;
+    //float LastAttackTime;
     private bool alreadyAppliedDealing;
     private bool isAttackCompleted;
 
@@ -21,7 +18,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         base.Enter();
         this.AttackDelay = EquipManager.Instance.Weapon.WeaponData.AttackDelay;
-        LastAttackTime = 0f;
+        //LastAttackTime = 0f;
         alreadyAppliedDealing = false;
         isAttackCompleted = false;
         StartAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
@@ -30,8 +27,8 @@ public class PlayerAttackState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
-        alreadyAppliedDealing = false;
         StopAnimation(stateMachine.Player.AnimationData.AttackParameterHash);
+        alreadyAppliedDealing = false;
     }
 
     public override void Update()
@@ -73,12 +70,8 @@ public class PlayerAttackState : PlayerBaseState
         }
         else
         {
-            if (isAttackCompleted)
-            {
-                stateMachine.ChangeState(stateMachine.ChasingState);
-                return;
-            }
+            stateMachine.ChangeState(stateMachine.AutoMoveState);
+            return;
         }
     }
-
 }

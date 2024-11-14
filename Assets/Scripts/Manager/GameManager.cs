@@ -5,9 +5,32 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public ObjectPool ObjectPool;
-    public StageSO[] stageInfo;
+    public List<StageSO> stageInfo = new List<StageSO>();
+    public StageSO curStage;
 
     public int curGold;
+    public int playerLevel { get; private set; }
 
-    //스테이지별 stage정보를 가지는 stageInfo배열. 어떤몬스터가 나올지 정해둔다.
+    public void LevelUp()
+    {
+        playerLevel++;
+    }
+
+    //StageManager?
+    public void OnStageEnd()
+    {
+        curStage = null;
+    }
+
+    public void OnNextStage()
+    {
+        int nextStage = int.MaxValue;
+
+        for(int i = 0; i < stageInfo.Count; i++)
+        {
+            nextStage = Mathf.Min(nextStage, stageInfo[i].stageIndex);
+        }
+        curStage = stageInfo[nextStage];
+        stageInfo.RemoveAt(nextStage);
+    }
 }

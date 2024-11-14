@@ -16,7 +16,7 @@ public class HealthPotion : ConsumableItem
         if (other.CompareTag("Player"))
         {
             CharacterManager.Instance.Player.AddItem?.Invoke(potionData);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

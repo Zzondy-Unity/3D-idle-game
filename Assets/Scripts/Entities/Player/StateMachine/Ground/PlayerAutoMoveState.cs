@@ -32,39 +32,37 @@ public class PlayerAutoMoveState : PlayerGroundState
     {
         base.Update();
         LastDetect += Time.deltaTime;
-        if(LastDetect > DetectTerm)
+        if (LastDetect > DetectTerm)
         {
             LastDetect = 0f;
-            Move();
+            Detect();
         }
     }
 
-    private void Move()
+    private void Detect()
     {
-        //주변에 적이있거나, 적한테 맞으면 쫒아감
-        //없으면 전진
-        float detectRange = stateMachine.Player.PlayerData.GroundData.DetectDistance;
-        Vector3 playerPos = stateMachine.Player.transform.position;
-        //주변에 적이 있다면 ChasingState로 변경
-        if (Physics.CheckSphere(playerPos, detectRange, TargetLayerMask))
+        RaycastHit[] detecteds = InDistance(EquipManager.Instance.Weapon.GetWeaponRange());
+
+        float minDistance = float.MaxValue;
+        Vector3 target = Vector3.zero;
+
+        if (detecteds.Length < 1)
         {
-            stateMachine.ChangeState(stateMachine.ChasingState);
-            return;
+            target = stateMachine.Player.nextStagePoint.position;
         }
         else
         {
-            NavMeshPath path = new NavMeshPath();
-            NavMeshAgent agent = stateMachine.Player.Agent;
-            Vector3 nextStage = stateMachine.Player.nextStagePoint.position;
-
-            if (agent.CalculatePath(nextStage, path))
+            for (int i = 0; i < detecteds.Length; i++)
             {
-                agent.SetDestination(nextStage);
+                if ((stateMachine.Player.transform.position - detecteds[i].transform.position).sqrMagnitude < minDistance)
+                {
+                    minDistance = stateMachine.Player.transform.position.sqrMagnitude;
+                    target = detecteds[i].transform.position;
+                }
             }
-            else
-            {
-                //수동이동으로 전환
-            }
+            stateMachine.Player.Agent.SetDestination(target);
+            stateMachine.ChangeState(stateMachine.AttackState);
+            return;
         }
     }
 }

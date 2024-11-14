@@ -49,6 +49,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void DifficultyByStage()
     {
-
+        //위의 오브젝트 풀에서 꺼낸거지만
+        //
     }
 }

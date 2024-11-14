@@ -15,6 +15,6 @@ MonoBehaviour:
   itemName: LowPotion
   description: 
   id: 100
-  icon: {fileID: 0}
-  value: 50
+  icon: {fileID: 21300000, guid: 65c59ccc59b5690458cb9e5324edc5dc, type: 3}
+  value: -50
   type: 0

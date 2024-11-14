@@ -9,9 +9,6 @@ public class HealthSystem : MonoBehaviour
     public float CurrentHealth {  get; private set; }
     public float MaxHealth { get; private set; }
 
-    [SerializeField] private float healthChangeDelay = 0.5f;
-    private float LastChanged = float.MaxValue;
-
     public event Action OnDamage;
     public event Action OnHeal;
     public event Action OnDeath;
@@ -29,19 +26,14 @@ public class HealthSystem : MonoBehaviour
     {
         if (isAttacked)
         {
-            LastChanged += Time.deltaTime;
-            if (LastChanged >= healthChangeDelay)
-            {
                 isAttacked = false;
-            }
         }
     }
 
     public bool ChangeHealth(float amount)
     {
-        if (isAttacked && LastChanged < healthChangeDelay) return false;
+        if (isAttacked) return false;
 
-        LastChanged = 0f;
         CurrentHealth += amount;
         CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
 
@@ -60,5 +52,10 @@ public class HealthSystem : MonoBehaviour
             isAttacked = true;
         }
         return true;
+    }
+
+    public void BeMaxHealth()
+    {
+        CurrentHealth = MaxHealth;
     }
 }

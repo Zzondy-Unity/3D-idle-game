@@ -8,7 +8,11 @@ public enum PoolTag
     Skeleton_Minion,
     Skeleton_Mage,
     MonsterCount,
-    Coin
+    Coin = 10,
+    PotionStart = 100,
+    lowHealthPotion,
+    HighHealthPotion,
+    PotionCount
 }
 
 [System.Serializable]

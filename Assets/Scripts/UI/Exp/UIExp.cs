@@ -30,6 +30,7 @@ public class UIExp : MonoBehaviour
         if(EnemyDeadCount % 10 == 0)
         {
             EventBus.Publish(EventType.LevelUp);
+            GameManager.Instance.LevelUp();
         }
 
         LevelTxt.text = "LV. " + Level.ToString();

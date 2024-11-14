@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionData: {fileID: 11400000, guid: 9cd07f799d2ba6545aef02c191e40909, type: 2}
+  speed: 5
 --- !u!54 &7755300761711216890
 Rigidbody:
   m_ObjectHideFlags: 0

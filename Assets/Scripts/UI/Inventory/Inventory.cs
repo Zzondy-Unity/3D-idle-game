@@ -16,7 +16,6 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Button UseButton;
     [SerializeField] private Button EquipButton;
 
-    private ItemSO selectedItemData;
     private int selectedItemIndex;
 
     private int curEquipIndex;
@@ -35,7 +34,7 @@ public class Inventory : MonoBehaviour
 
     public void Init()
     {
-        for(int i  = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             slots[i].slotIndex = i;
             slots[i].inventory = this;
@@ -46,7 +45,6 @@ public class Inventory : MonoBehaviour
 
     private void SelectedReset()
     {
-        selectedItemData = null;
         selectedItemIndex = -1;
     }
 
@@ -67,7 +65,7 @@ public class Inventory : MonoBehaviour
 
     private void InventoryUpdate()
     {
-        for(int i = 0;i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             slots[i].Set();
         }
@@ -76,17 +74,16 @@ public class Inventory : MonoBehaviour
     public void SelectItemSlot(int index)
     {
         itemNameText.text = string.Empty;
+        selectedItemIndex = index;
         if (slots[index].itemData == null) return;
 
-        selectedItemIndex = index;
-        selectedItemData = slots[index].itemData;
         itemNameText.text = slots[index].itemData.itemName;
     }
 
     public void GetItem(ItemSO data)
     {
         Slot slot = GetItemSlot(data);
-        if(slot == null)
+        if (slot == null)
         {
             Slot emptySlot = GetEmptySlot();    //빈 슬롯이 없는경우는 일단 상정하지 않겠음
             emptySlot.itemData = data;
@@ -103,9 +100,9 @@ public class Inventory : MonoBehaviour
 
     private Slot GetEmptySlot()
     {
-        for(int i =0;  i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
-            if(slots[i].itemData == null)
+            if (slots[i].itemData == null)
             {
                 return slots[i];
             }
@@ -115,9 +112,9 @@ public class Inventory : MonoBehaviour
 
     private Slot GetItemSlot(ItemSO data)
     {
-        for(int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
-            if( slots[i].itemData == data)
+            if (slots[i].itemData == data)
             {
                 return slots[i];
             }
@@ -127,9 +124,19 @@ public class Inventory : MonoBehaviour
 
     public void UseBtn()
     {
-        if (slots[selectedItemIndex].itemData is IUsable usable)
+        if (slots[selectedItemIndex].itemData is PotionSO potionData)
         {
-            usable.Use();   //추후 포션 의외의 다른 사용아이템이 생길때를 대비해 인터페이스 사용
+            switch (potionData.type)
+            {
+                case PotionType.HP:
+                    CharacterManager.Instance.Player.HealthSystem.ChangeHealth(potionData.value);
+                    break;
+                case PotionType.Speed:
+                case PotionType.Attack:
+                    Debug.Log("미완성");
+                    break;
+
+            }
             RemoveItem();
         }
         InventoryUpdate();
@@ -155,7 +162,7 @@ public class Inventory : MonoBehaviour
 
     private void ResetEquippedSlotOutline()
     {
-        for(int i =0; i< slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i].equipped == true)
             {

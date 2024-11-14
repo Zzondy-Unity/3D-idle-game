@@ -81,14 +81,38 @@ public class Enemy : MonoBehaviour
     private void Destroy()
     {
         Agent.enabled = false;
+        CoinDrop();
+        ItemDrop();
+        ResetHP();
+        gameObject.SetActive(false);
+    }
 
+    private void ResetHP()
+    {
+        HealthSystem.BeMaxHealth();
+    }
+
+    private void CoinDrop()
+    {
         float numOfCoin = Random.Range(1, 1 + playerLv * 5);
-        for(int i = 0; i < numOfCoin; i++)
+        for (int i = 0; i < numOfCoin; i++)
         {
             GameObject coin = GameManager.Instance.ObjectPool.GetFromPool(PoolTag.Coin);
             coin.SetActive(true);
             coin.transform.position = transform.position;
-            gameObject.SetActive(false);
+        }
+    }
+
+    private void ItemDrop()
+    {
+        float numOfItem = Random.Range(0, GameManager.Instance.curStage.stageIndex + 1 * 5);
+
+        for(int i = 0;i < numOfItem; i++)
+        {
+            int randomPotion = Random.Range((int)PoolTag.PotionStart + 1, (int)PoolTag.PotionCount);
+            GameObject potion = GameManager.Instance.ObjectPool.GetFromPool((PoolTag)randomPotion);
+            potion.SetActive(true);
+            potion.transform.position = transform.position;
         }
     }
 }
